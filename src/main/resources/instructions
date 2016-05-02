@@ -1,0 +1,30 @@
+hi Alexandros,
+
+Below is the test we want to set you - the source data is attached. Let me know if you get stuck.
+
+Leaky Data Interview Problem - 2016-04
+
+In this test we are simulating that data is being transmitted outside of a firewall and that we are looking for the potential leak of customer information. Encrypted data is allowed through the firewall but we must detect when data is either totally unencrypted or only weakly encrypted.
+
+In the test data you have been supplied not all of the records are encrypted correctly and we want you to programmatically analyse the contents to determine if the data is secure or not. For test purposes we want you to then generate an output file (documented below) that registers which records pass or fail.
+
+The test includes 5 levels of encryption - from encrypted text (easy to spot) up to fully encrypted (which in theory you should not be able to break) - levels 2,3,4 use a range of techniques in ever increasing difficulty. To pass the test you are required to identify the form of encoding/encryption and then devise algorithms to correct decode them back to their original text form.
+
+The problem can be solved using any programming language of your choice.
+Input/Output
+Each line in the provided input data file is a base64 encoded encrypted record.
+
+Your tool should produce one JSON output record line per input record. Each output record should have the “label” key set to either “PASS” if it is safe to transmit, “FAIL” otherwise.
+
+e.g.
+{ “label”:”PASS”, “content”:”78IkAOaoFrCQE … rC=”,“reason”:”reasoning for label” }
+{ “label”:”FAIL”, “content”:”78IkAOaoFrCQE … rC=”,“reason”:”unsafe encoding” }
+
+Any other useful information about why records have been labeled should also be recorded under the “reason” key.
+If you are able to successfully decode an input record, place that under the “decrypted” key
+
+Your tool may be trained/prepared based on the provided input file, but it will be tested against an expanded unseen dataset.
+
+Note: In order to partly hide the poorly encrypted records, they have been prefixed with same 3 bytes, as they form part of the header of the correctly encrypted records.
+
+We encrypted 800 strings, base64 encoded them and wrote them each in a single line. After decoding you should be able to find the easy to spot one by looking at it, because it is plaintext. One of the first 10 lines should be readable.
