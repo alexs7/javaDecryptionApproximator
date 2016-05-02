@@ -13,7 +13,8 @@ import java.util.stream.Stream;
 /**
  * Created by alex on 27/04/2016.
  */
-public class FileLoader {
+public class FileDecoder {
+
     public static ArrayList<String> load(String filePath) {
         ArrayList<String> data = new ArrayList<>();
         int offset = 0;

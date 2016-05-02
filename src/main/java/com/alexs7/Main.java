@@ -11,7 +11,19 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String [] args) {
-        ArrayList<String> data = FileLoader.load("/Users/alex/Projects/work/decoder/src/main/resources/interview_source.txt");
+
+        if(args.length != 2){
+            //throw new IllegalArgumentException("Please enter 2 values, file to read from and new filename to be created");
+        }
+
+        //String fileToRead = args[0];
+        //String fileToWrite = args[1];
+
+        ArrayList<String> data = FileDecoder.load("/Users/alex/Projects/work/decoder/src/main/resources/interview_source.txt");
+
+        Decrypter decrypter = new Decrypter(data);
+
+//        ArrayList<String> results = decrypter.getDecryptedData();
         try {
             Files.write(Paths.get("/Users/alex/Projects/work/decoder/src/main/resources/decoded_UTF_8.txt"), data);
         } catch (IOException e) {
