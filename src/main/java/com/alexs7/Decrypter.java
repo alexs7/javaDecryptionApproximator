@@ -10,18 +10,16 @@ public class Decrypter {
 
     private String mostValidString;
     private ArrayList<String> data;
+    private double threshold;
 
-    public Decrypter(ArrayList<String> data) {
+    public Decrypter(ArrayList<String> data, double threshold) {
         if(data.isEmpty()){
             throw new NullPointerException("Data cannot be null");
         }
 
         this.data = data;
         this.mostValidString = getMostValidString(data);
-    }
-
-    public static ArrayList<String> decrypt(ArrayList<String> data) {
-        return null;
+        this.threshold = threshold;
     }
 
     private String getMostValidString(ArrayList<String> data) {
@@ -58,4 +56,31 @@ public class Decrypter {
 
         return sortedResultMap;
     }
+
+    public List<EncryptedDataDistanceWrapper> analyzeData() {
+        List<EncryptedDataDistanceWrapper> encryptedStringDistances = new ArrayList<>();
+        int distance = 0;
+
+        for(String encryptedString : data){
+            distance = LevenshteinDistance.computeLevenshteinDistance(mostValidString,encryptedString);
+            encryptedStringDistances.add(new EncryptedDataDistanceWrapper(encryptedString, distance));
+        }
+
+        Collections.sort(encryptedStringDistances,
+                (o1, o2) -> Integer.compare(o1.getDistance(),o2.getDistance()));
+
+        Collections.reverse(encryptedStringDistances);
+
+        int indexThreshold = (int) (encryptedStringDistances.size()*threshold);
+        for (int i = 0; i < encryptedStringDistances.size(); i++) {
+            if(i <= indexThreshold){
+                encryptedStringDistances.get(i).setPassFlag("PASS");
+            }else{
+                encryptedStringDistances.get(i).setPassFlag("FAIL");
+            }
+        }
+
+        return encryptedStringDistances;
+    }
 }
+
